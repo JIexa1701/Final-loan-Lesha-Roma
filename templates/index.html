@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <title>Predict Loan Status Application</title>
+ </head>
+<body>
+  <form action="/predict" method="POST" class="form">
+    <header>
+
+
+<!--From https://codepen.io/frytyler/pen/EGdtg
+<html >
+
+<head>
+  <meta charset="UTF-8">
+  <title>ML API</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+</head>
+-->
+
+<body>
+ <div class="login">
+	<h1>Predict Loan Status Application </h1>
+	<h2>We predict loan's quality for Peer-to-Peer loans. Please enter information regarding loan: </h2>
+     <!-- Main Input For Receiving Query to our ML 
+    <form action="{{ url_for('predict')}}"method="post">
+    	<input type="text" name="int_rate" placeholder="int_rate" required="required" />
+        <input type="text" name="installment" placeholder="installment" required="required" />
+		<input type="text" name="total_rec_prncp" placeholder="total_rec_prncp" required="required" />
+		<input type="text" name="total_rec_late_fee" placeholder="total_rec_late_fee" required="required" />
+		<input type="text" name="tot_cur_bal" placeholder="tot_cur_bal" required="required" />
+		<input type="text" name="total_rev_hi_lim" placeholder="total_rev_hi_lim" required="required" />
+		<input type="text" name="recoveries" placeholder="recoveries" required="required" />
+		<input type="text" name="out_prncp_inv" placeholder="out_prncp_inv" required="required" />
+		<input type="text" name="inq_last_6mths" placeholder="inq_last_6mths" required="required" />
+		<input type="text" name="sub_grade" placeholder="sub_grade" required="required" />-->
+		
+		
+		<div class="form__item">
+      <label for="int_rate">Interest Rate (%)</label> 
+      <input id="int_rate" name="int_rate" type="number" min="1" max="30" required>
+    </div>
+    
+    	<div class="form__item">
+      <label for="installment">Monthly payment (USD)</label> 
+      <input id="installment" name="installment" type="number" min="1" max="2000" required>
+    </div>
+		
+    	<div class="form__item">
+      <label for="total_rec_prncp">Remaining outstanding principal for total amount funded (incl. all loans)</label> 
+      <input id="total_rec_prncp" name="total_rec_prncp" type="number" min="0" max="35000" required>
+    </div>
+
+		<div class="form__item">
+      <label for="out_prncp_inv">Remaining outstanding principal for peer-to-peer loan (eq. USD) </label> 
+      <input id="out_prncp_inv" name="out_prncp_inv" type="number" min="0" max="50000" required>
+    </div>
+
+    	<div class="form__item">
+      <label for="total_rec_late_fee">Late fees paid to date (USD) </label> 
+      <input id="total_rec_late_fee" name="total_rec_late_fee" type="number" min="0" max="500" required>
+    </div>
+
+    	<div class="form__item">
+      <label for="tot_cur_bal">Total current balance of all accounts (eq. USD) </label> 
+      <input id="tot_cur_bal" name="tot_cur_bal" type="number" min="0" max="1000000" required>
+    </div>
+
+		<div class="form__item">
+      <label for="total_rev_hi_lim">Total revolving credit limit (eq. USD) </label> 
+      <input id="total_rev_hi_lim" name="total_rev_hi_lim" type="number" min="0" max="1000000" required>
+    </div>
+		
+		<div class="form__item">
+      <label for="recoveries">Funds paid to collection companies last year (eq. USD) </label> 
+      <input id="recoveries" name="recoveries" type="number" min="0" max="50000" required>
+    </div>
+
+
+	<div class="form__item">
+      <label for="inq_last_6mths">Number of loan inquiries in past 6 months (excluding auto and mortgage inquiries) </label> 
+      <input id="inq_last_6mths" name="inq_last_6mths" type="number" min="0" max="30" required>
+    </div>
+		
+		<div class="form__item">
+      <label for="sub_grade">Sub Grade</label>
+      <select id="sub_grade" name="sub_grade" required>
+        <option value="" disabled selected></option>
+        <option value="0">A1</option>
+        <option value="1">A2</option>
+        <option value="2">A3</option>
+        <option value="3">A4</option>
+        <option value="4">A5</option>
+        <option value="5">B1</option>
+        <option value="6">B2</option>
+        <option value="7">B3</option>
+        <option value="8">B4</option>
+        <option value="9">B5</option>
+        <option value="10">C1</option>
+        <option value="11">C2</option>
+        <option value="12">C3</option>
+        <option value="13">C4</option>
+        <option value="14">C5</option>        
+        <option value="15">D1</option>
+        <option value="16">D2</option>
+        <option value="17">D3</option>
+        <option value="18">D4</option>
+        <option value="19">D5</option>     
+        <option value="20">E1</option>
+        <option value="21">E2</option>
+        <option value="22">E3</option>
+        <option value="23">E4</option>
+        <option value="24">E5</option>         
+        <option value="25">F1</option>
+        <option value="26">F2</option>
+        <option value="27">F3</option>
+        <option value="28">F4</option>
+        <option value="29">F5</option>     
+        <option value="30">G1</option>
+        <option value="31">G2</option>
+        <option value="32">G3</option>
+        <option value="33">G4</option>
+        <option value="34">G5</option>       
+      </select>
+    </div>
+
+   <br>
+
+        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button></br>
+    </form>
+<h2>
+   {{ prediction_text }}
+</h2>
+<br>
+
+About the project:
+<br>
+Application model (800k loans) was trained on Lending Club data provided by data-scientist Janio Martinez. 
+Lending Club is Peer-to-Peer lending company based in USA.
+   </p>
+    <p>
+          During the project our team faced with binary classification problem. This is the task of classifying 
+          the elements of a dataset into two groups (Good and Bad loans) on the basis of a specific classification rule. 
+                  </p>
+
+        <p>
+          CatBoost was chosen as the most suitable model for this task. 
+          It is a recently open-sourced machine learning algorithm. 
+          CatBoost provides faster predictions in comparison with other similar algorithms and shows the best result.
+          The accuracy score of our model is 93% and we believe it is a great result. 
+ </div>
+
+Our team:
+<br>
+<a href="https://www.linkedin.com/in/mohylnytskyi/">Roman Mohylnytskyi</a> and
+<a href="https://www.linkedin.com/in/alex-tatsytov">Alex Tatsytov</a>
+</body>
+</html>
